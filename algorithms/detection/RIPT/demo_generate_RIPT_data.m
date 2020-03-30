@@ -27,13 +27,16 @@ lambdaL = 0.7;  % tuning
 muCoef = 5;
 h = 1;          % tuning
 
-for setId = 2
+for setId = 1
     setImgNumArr = [3 100 100 100 100 5 32 3 1 120 30];
     setImgNum = setImgNumArr(setId);
     clear tarCube;
     
 %     for imgId = 1:setImgNum
-    for imgId = 2:10
+tic;
+    for imgId = 1:4
+        
+        
         img = get_infrared_img(setId, imgId, utilsPath); % double 0-255                                
                 
         tenF = gen_patch_ten(img, patchSize, slideStep);
@@ -48,9 +51,11 @@ for setId = 2
         [tenB, tenT] = ript(tenF, lambda, mu, structTenW);
         tarImg = res_patch_ten_mean(tenT, img, patchSize, slideStep);
        
-%         tarCube(:, :, imgId) = tarImg;        
-        figure; imshow(tarImg, []);
+%         tarCube(:, :, imgId) = tarImg;      
+        imwrite(tarImg,['./result',num2str(setId),'/',num2str(imgId),'.bmp']);
+        %figure; imshow(tarImg, []);
     end % imgId
+    toc
 %     savePath = '../../../outputs/detection/RIPT/sepData/';    
 %     saveName = ['set_' num2str(setId) '_L_' num2str(lambdaL) '_N_' ...
 %         num2str(N) '_Cube'];    
